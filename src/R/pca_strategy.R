@@ -4,11 +4,14 @@ d = r3000_clean
 # row.names(d) <- d$Date
 d <- d[,-1]
 # d <- Filter(function(x)!any(is.na(x)), d)
-r <- diff(log(d[,1]))
-for (i in 2:length(d)){
-  r <- cbind(r,diff(log(d[,i])))
-}
+r = as.matrix(d)
+r = diff(log(r))
+# r <- diff(log(d[,1]))
+# for (i in 2:length(d)){
+#   r <- cbind(r,diff(log(d[,i])))
+# }
 colnames(r) <- names(d)
+
 PCA <- prcomp(r)
 pca1 <- PCA$rotation[,1]
 sort(pca1,decreasing = FALSE)[1:10]
