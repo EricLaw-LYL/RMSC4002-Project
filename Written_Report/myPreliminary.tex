@@ -5,13 +5,13 @@
 %%%
 %%%----------------------------------------------------------------------------%%%
 %%%----------------------------------------------------------------------------%%%
-\usepackage{amsmath, amsthm, amssymb, nccbbb, bm, dsfont, pifont, fontawesome, graphicx, varioref, enumitem, mathtools, listings, xcolor, cite}
+\usepackage{amsmath, amsthm, amssymb, nccbbb, bm, dsfont, pifont, fontawesome, graphicx, varioref, enumitem, mathtools, listings, xcolor, cite, fancyhdr, lastpage}
 \RequirePackage[round,authoryear]{natbib}
 \RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[cal=boondox]{mathalfa}
 %\usepackage[numbers]{natbib}
-\setlength{\topmargin}{-1in}
-\setlength{\textheight}{10.5in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\textheight}{10in}
 \setlength{\oddsidemargin}{-.6in}
 \setlength{\textwidth}{7.5in}
 \hypersetup{colorlinks=true, linkcolor=blue, citecolor=red, urlcolor=blue}
@@ -239,3 +239,10 @@
 \DeclareMathAccent{\wideparen}{0}{mathx}{"75}
 
 \def\cs#1{\texttt{\char`\\#1}}
+
+% Customize header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{2021-22 Semester 1}
+\fancyhead[R]{RMSC4002 Financial Data Analytics with Machine Learning}
+\fancyfoot[C]{Page \thepage\ of \pageref*{LastPage}}
