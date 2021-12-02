@@ -5,7 +5,7 @@
 %%%
 %%%----------------------------------------------------------------------------%%%
 %%%----------------------------------------------------------------------------%%%
-\usepackage{amsmath, amsthm, amssymb, nccbbb, bm, dsfont, pifont, fontawesome, graphicx, varioref, enumitem, mathtools}
+\usepackage{amsmath, amsthm, amssymb, nccbbb, bm, dsfont, pifont, fontawesome, graphicx, varioref, enumitem, mathtools, listings, xcolor, cite}
 \RequirePackage[round,authoryear]{natbib}
 \RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage[cal=boondox]{mathalfa}
@@ -52,6 +52,34 @@
   stringstyle=\ttfamily\bfseries\color{mygreen}
 } 
 }{}
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+%Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour}, commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+%"mystyle" code listing set
+\lstset{style=mystyle}
 
 %%%----------------------------------------------------------------------------%%%
 %%%----------------------------------------------------------------------------%%%
