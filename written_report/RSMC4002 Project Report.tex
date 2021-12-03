@@ -142,6 +142,8 @@ import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 \end{lstlisting}
 
+    \noindent In order to easily implement different machine learning algorithm, we imported \texttt{sklearn} library \cite{scikit-learn}. \\
+    
     \noindent Loading data and a short explanatory data analysis
 \begin{lstlisting}[language = Python]
 # Process data
@@ -400,7 +402,7 @@ for index in range(0, 3):
     
     
     \subsection{Cross Validation and Grid Search Procedures}
-\begin{lstlisting}
+\begin{lstlisting}[language = Python]
 # RandomForestClassifier
 RandomForest = Pipeline([('rf', RandomForestClassifier(n_jobs=-1,random_state=random_state))])
 
@@ -456,7 +458,7 @@ for index, model in enumerate(model_used):
 \end{lstlisting}
     \noindent
     \texttt{Using RandomForest model \\
-    traing accuracy rate is 0.9061448004270909 \\
+    training accuracy rate is 0.9061448004270909 \\
     testing accuracy rate is 0.9014814215170404 and ROC\_AUC is 0.9329564140543615 \\
     It requires 64.35 sec to compute \\
     \\
@@ -507,8 +509,14 @@ plot_ROC(fpr = fpr, tpr = tpr, threshold = threshold, model = ["Random Forest", 
 \end{lstlisting}
     \noindent
     \begin{center}
-        \includegraphics[width = 0.8 \textwidth]{plot/classification/roc.pdf}
+        \includegraphics[width = 1 \textwidth]{plot/classification/roc.pdf}
     \end{center}
+    
+    
+    \subsection{Conclusion}
+    In terms of performance, random forest has a higher accuracy rate and ROC rate (0.8998, 0.9354) comparing to that of decision tree (0.8948, 0.9058). The accuracy rate are similar in both method. \\
+    Speaking of computation time, decision tree requires shorter time ($\sim$ 2.09s), while random forest requires 40 times longer in computation ($\sim$ 84.41s), there is a huge difference. \\
+    Our group believe that random forest performs better than decision tree in this case. Since this dataset contains around 40,000 rows, the required computation time is around 80s, which is reasonable. Also, random forest has a significantly better ROC rate.
     
     
     \newpage
