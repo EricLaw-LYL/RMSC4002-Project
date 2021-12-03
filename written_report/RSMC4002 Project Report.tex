@@ -304,7 +304,7 @@ x_train, x_test, y_train, y_test = train_test_split(dataset_prepared, y, test_si
 # Set max_depth = 3 to keep the size of the tree small for ploting graph
 dt = tree.DecisionTreeClassifier(max_depth=3, random_state=random_state)
 dt.fit(x_train, y_train)
-plt.figure(figsize=(18, 10))
+plt.figure(figsize=(10, 5))
 _ = tree.plot_tree(dt, feature_names=dataset_prepared.columns,
                    class_names=["0", "1"], filled=True)
 \end{lstlisting}
@@ -314,7 +314,24 @@ _ = tree.plot_tree(dt, feature_names=dataset_prepared.columns,
     \end{center}
     
     \subsection{Random Forest} \label{random_forest}
-    
+    Setting the depth of decision trees to 3, to plot a simplified decision tree.
+\begin{lstlisting}[language = Python]
+# Set max_depth = 3 to keep the size of the tree small for ploting graph
+rf = RandomForestClassifier(max_depth = 3, n_estimators = 10,
+                            random_state = random_state)
+rf.fit(x_train, y_train)
+
+# Plot 3 trees of the Forest
+fig, axes = plt.subplots(nrows = 3, ncols = 1, figsize = (10,15), dpi = 100)
+for index in range(0, 3):
+    plt.figure(figsize = (10,5))
+    tree.plot_tree(rf.estimators_[index], feature_names = dataset_prepared.columns,
+                       class_names = ["0", "1"], filled = True, ax = axes[index])
+    axes[index].set_title('Estimator: ' + str(index), fontsize = 11)
+\end{lstlisting}
+    \begin{center}
+        \includegraphics[width = .9 \textwidth]{plot/classification/random_forest.pdf}
+    \end{center}
     
     
     \newpage
