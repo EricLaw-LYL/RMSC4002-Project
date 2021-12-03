@@ -115,8 +115,8 @@
         \item data preparation for modeling
         \item visualization of random forest and decision tree
         \item cross validation and grid search
-        \item comparison of the performance of random forest and decision tree
-        \item conclusions
+        \item comparison of performance of random forest and decision tree
+        \item conclusion
     \end{enumerate}
     
     \subsection{Process Data and Explanatory Data Analysis (EDA)}
@@ -141,15 +141,16 @@ import category_encoders as ce
 import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 \end{lstlisting}
-\quad \\
-    Loading data and a short explanatory data analysis
+
+    \noindent Loading data and a short explanatory data analysis
 \begin{lstlisting}[language = Python]
 # Process data
 data = pd.read_csv('../../data/bank-additional-full.csv', sep=';')
 display(data.sample(10))
 display('There are {} observations with {} features'.format(data.shape[0], data.shape[1]))
 \end{lstlisting}
-\quad \\
+
+    \noindent
     \begin{tabular}{lrlllllllcl}
         {} &  age &          job &   marital &          education & default & housing & loan &   contact & ... & y\\
         
@@ -184,7 +185,8 @@ def plot_bar(column):
 plot_bar('job'), plot_bar('marital'), plot_bar('education'), plot_bar('contact'), plot_bar('loan'), plot_bar('housing')
 \end{lstlisting}
     
-    \begin{figure}%
+    \noindent
+    \begin{figure}[H]
         \centering
         \subfloat[job]{\includegraphics[scale=0.4]{plot/classification/job.pdf}}%
         \qquad
@@ -198,11 +200,15 @@ plot_bar('job'), plot_bar('marital'), plot_bar('education'), plot_bar('contact')
         \qquad
         \subfloat[contact]{\includegraphics[scale=0.4]{plot/classification/housing.pdf}}%
     \end{figure}
-    \quad \\
-    \textbf{Summary of Categorical Variables:}
+    
+    \noindent \textbf{Summary of Categorical Variables:}
     \begin{enumerate}
         \item When job types are retired and student, the proportions of opening the deposit are high as well.
         \item 
+        \item
+        \item
+        \item
+        \item
     \end{enumerate}
     
     \subsubsection{Numerical Variables}
@@ -210,7 +216,7 @@ plot_bar('job'), plot_bar('marital'), plot_bar('education'), plot_bar('contact')
 corr = data.corr()
 corr.style.background_gradient(cmap = 'Spectral')
 \end{lstlisting}
-    \quad \\
+    \noindent
     {\tiny
         \begin{tabular}{lrrrrrrrrrrr}
             {} &     age &  duration &  campaign &   pdays &  previous &  emp.var.rate &  cons.price.idx &  cons.conf.idx &  euribor3m &  nr.employed &       y \\
@@ -276,7 +282,7 @@ dataset_prepared.drop('y', axis=1, inplace=True)
 display(dataset_prepared.sample(10))
 display('There are {} observations with {} features in the prepared dataset'.format(dataset_prepared.shape[0], dataset_prepared.shape[1]))
 \end{lstlisting}
-    \quad \\
+    \noindent
     \begin{tabular}{lrrrrrrrrr}
         {} &  age &   marital &  education &  default &  housing &  loan &  contact &  duration &  campaign \\
         
@@ -290,6 +296,7 @@ display('There are {} observations with {} features in the prepared dataset'.for
     
     
     \subsubsection{Splitting Training Dataset and Testing Dataset}
+    We split the dataset into training and testing datasets, 80\% and 20\% of the full dataset respectively.
 \begin{lstlisting}[language = Python]
 # Set global random seed
 random_state = 4002
@@ -308,10 +315,64 @@ plt.figure(figsize=(10, 5))
 _ = tree.plot_tree(dt, feature_names=dataset_prepared.columns,
                    class_names=["0", "1"], filled=True)
 \end{lstlisting}
-    % \quad \\
+    \noindent
     \begin{center}
         \includegraphics[width=.9\textwidth]{plot/classification/decision_tree.pdf}
     \end{center}
+    
+    \newpage
+    \noindent
+    \textbf{Decision Rules}
+% \begin{lstlisting}[language = Python]
+% r = tree.export_text(dt, feature_names=list(dataset_prepared.columns))
+% print(r)
+
+% |--- nr.employed <= 5087.65
+% |   |--- duration <= 162.50
+% |   |   |--- duration <= 123.50
+% |   |   |   |--- class: 0
+% |   |   |--- duration >  123.50
+% |   |   |   |--- class: 0
+% |   |--- duration >  162.50
+% |   |   |--- pdays <= 15.50
+% |   |   |   |--- class: 1
+% |   |   |--- pdays >  15.50
+% |   |   |   |--- class: 1
+% |--- nr.employed >  5087.65
+% |   |--- duration <= 524.50
+% |   |   |--- cons.conf.idx <= -46.65
+% |   |   |   |--- class: 0
+% |   |   |--- cons.conf.idx >  -46.65
+% |   |   |   |--- class: 0
+% |   |--- duration >  524.50
+% |   |   |--- duration <= 835.50
+% |   |   |   |--- class: 0
+% |   |   |--- duration >  835.50
+% |   |   |   |--- class: 1
+% \end{lstlisting}
+    
+    \setcounter{magicrownumbers}{0}
+    \newcommand\rules{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
+    \begin{tabular}{r l}
+        R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50 and \texttt{duration} $<$= 123.50, then \texttt{y} = 0 \\
+        & Support = , Confidence = , Capture = \\
+        R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50 and \texttt{duration} $>$ 123.50, then \texttt{y} = 0 \\
+        & Support = , Confidence = , Capture = \\
+        R\rules & If , then \texttt{y} =  \\
+        & Support = , Confidence = , Capture = \\
+        R\rules & If , then \texttt{y} =  \\
+        & Support = , Confidence = , Capture = \\
+        R\rules & If , then \texttt{y} =  \\
+        & Support = , Confidence = , Capture = \\
+        R\rules & If , then \texttt{y} =  \\
+        & Support = , Confidence = , Capture = \\
+        R\rules & If , then \texttt{y} =  \\
+        & Support = , Confidence = , Capture = \\
+        R\rules & If , then \texttt{y} =  \\
+        & Support = , Confidence = , Capture = \\
+        
+    \end{tabular} \\
+    As the maximum depth is set to be only 3, there are quite a few redundant leafs, such as R1 and R2 could be combined into one rule: If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50, then \texttt{y} = 0
     
     \subsection{Random Forest} \label{random_forest}
     Setting the depth of decision trees to 3, to plot a simplified decision tree.
@@ -329,8 +390,124 @@ for index in range(0, 3):
                        class_names = ["0", "1"], filled = True, ax = axes[index])
     axes[index].set_title('Estimator: ' + str(index), fontsize = 11)
 \end{lstlisting}
+
+    \noindent
     \begin{center}
         \includegraphics[width = .9 \textwidth]{plot/classification/random_forest.pdf}
+    \end{center}
+    \noindent
+    In this simplified random forest, we obtain 10 decision trees (only 3 were printed above), then the prediction is obtained by the majority vote in the case of classification.
+    
+    
+    \subsection{Cross Validation and Grid Search Procedures}
+\begin{lstlisting}
+# RandomForestClassifier
+RandomForest = Pipeline([('rf', RandomForestClassifier(n_jobs=-1,random_state=random_state))])
+
+# DecisionTreeClassifier
+DecisionTree = Pipeline([('dt', tree.DecisionTreeClassifier(max_features='auto',random_state=random_state))])
+
+# Set number of Cross Validation
+cv = StratifiedKFold(shuffle=True, n_splits=5,random_state=random_state)
+
+# Set parameters for RandomForestClassifier and DecisionTreeClassifier
+rf_params = [{  'rf__criterion': ['entropy'],
+                'rf__min_samples_leaf': [80, 100],
+                'rf__max_depth': [25, 27],
+                'rf__min_samples_split': [3, 5],
+                'rf__n_estimators' : [60, 70]}]
+
+dt_params = [{  'dt__max_depth': [8, 10],
+                'dt__min_samples_leaf': [1, 3, 5, 7]}]
+
+#  Set parameters for Grid Search of RandomForestClassifier and DecisionTreeClassifier
+gs_rf = GridSearchCV(RandomForest, param_grid=rf_params,
+                     scoring='accuracy', cv=cv)
+
+gs_dt = GridSearchCV(DecisionTree, param_grid=dt_params,
+                     scoring='accuracy', cv=cv)
+
+# Models used
+model_used = [gs_rf, gs_dt]
+model_name = { 0:'RandomForest', 1:'DecisionTree'}
+
+# Set temp
+acc_rate = {}
+auc_rate = {}
+models = []
+time_used={}
+
+# Record the time used, accuracy rate and ROC rate
+for index, model in enumerate(model_used):
+        start = time.time()
+        print('Using {} model'.format(model_name[index]))
+        model.fit(x_train, y_train)
+        print('training accuracy rate is {}'.format(model.best_score_))
+        auc = roc_auc_score(y_test, model.predict_proba(x_test)[:,1])
+        print('testing accuracy rate is {} and ROC_AUC is {}'.format(model.score(x_test, y_test),auc))
+        end = time.time()
+        print('It requires {} sec to compute'.format(round(end - start, 2)))
+        print()
+        
+        models.append(model.best_estimator_)
+        acc_rate[index] = model.score(x_test, y_test)
+        auc_rate[index] = auc
+        time_used[index] = round(end - start, 2)
+\end{lstlisting}
+    \noindent
+    \texttt{Using RandomForest model \\
+    traing accuracy rate is 0.9061448004270909 \\
+    testing accuracy rate is 0.9014814215170404 and ROC\_AUC is 0.9329564140543615 \\
+    It requires 64.35 sec to compute \\
+    \\
+    Using DecisionTree model \\
+    training accuracy rate is 0.9045141750723605 \\
+    testing accuracy rate is 0.8998623816077066 and ROC\_AUC is 0.8852839212278664 \\
+    It requires 1.88 sec to compute}
+    
+    \newpage
+    \subsection{Comparison of Performance of Random Forest and Decision Tree}
+    
+    \subsubsection{Table of Accuracy Rate, ROC rate and Computation Time}
+\begin{lstlisting}[language = Python]
+pd.DataFrame(
+    list(zip(model_name.values(), acc_rate.values(), auc_rate.values(), time_used.values())), 
+    columns = ['Model_used', 'Testing_accuracy_rate','Testing_ROC_rate','Time_used']
+)
+\end{lstlisting}
+    \noindent
+    \begin{tabular}{llrrr}
+        {} &    Model\_used &  Testing\_accuracy\_rate &  Testing\_ROC\_rate &  Time\_used \\
+        
+        0 &  RandomForest &               0.899818 &          0.935413 &      84.41 \\
+        1 &  DecisionTree &               0.894839 &          0.905776 &       2.09 \\
+    \end{tabular}
+    
+    
+    \subsubsection{ROC Graph}
+\begin{lstlisting}[language = Python]
+def plot_ROC(fpr, tpr, threshold,model):
+    trace0 = go.Scatter(x=fpr[0], y=tpr[0], text=threshold[0], fill='tozeroy', name='ROC Curve of {} '.format(model[0]))
+    trace1 = go.Scatter(x=fpr[1], y=tpr[1], text=threshold[1], fill='tozeroy', name='ROC Curve of {} '.format(model[1]))
+    trace2 = go.Scatter(x=[0,1], y=[0,1], line={'color': 'black', 'width': 1, 'dash': 'dash'}, name='Baseline')
+    data = [trace0, trace1, trace2]
+    
+    layout = go.Layout(title='ROC Curve', xaxis={'title': 'False Positive Rate'}, 
+                       yaxis={'title': 'True Positive Rate'})
+    fig = go.Figure(data, layout)
+    fig.write_image("../../plot/classification/roc.pdf")
+    fig.show()
+
+fpr, tpr, threshold = np.transpose([
+    roc_curve(y_test, models[0].predict_proba(x_test)[:,1]), 
+    roc_curve(y_test, models[1].predict_proba(x_test)[:,1])
+])
+
+plot_ROC(fpr = fpr, tpr = tpr, threshold = threshold, model = ["Random Forest", "Decision Tree"])
+\end{lstlisting}
+    \noindent
+    \begin{center}
+        \includegraphics[width = 0.8 \textwidth]{plot/classification/roc.pdf}
     \end{center}
     
     
