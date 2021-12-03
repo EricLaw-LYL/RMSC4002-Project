@@ -107,7 +107,7 @@
     \end{table}
     
     \subsection{Project Description}
-    We are going to perform an analysis in \textbf{topic 6: Classification / Decision and Regression Trees}. We will use \ref{decision_trees} \nameref{decision_trees} and \ref{random_forest} \nameref{random_forest} to do classification on response variable \textbf{y}, i.e. whether the client subscribed a term deposit. \\
+    We are going to perform an analysis in \textbf{topic 6: Classification / Decision and Regression Trees}. We will use \nameref{decision_trees} and \nameref{random_forest} to do classification on response variable \textbf{y}, i.e. whether the client subscribed a term deposit. \\
     \\
     The following steps will be performed to complete this section:
     \begin{enumerate}
@@ -161,7 +161,7 @@ display('There are {} observations with {} features'.format(data.shape[0], data.
     \end{tabular} \\ \\
     \texttt{There are 41188 observations with 21 features}
     
-    \subsection{Explore Categorical Variables in Dataset}
+    \subsubsection{Categorical Variables}
 \begin{lstlisting}[language = Python]
 # Function of plotting the categorical values disribution
 def plot_bar(column):
@@ -186,23 +186,132 @@ plot_bar('job'), plot_bar('marital'), plot_bar('education'), plot_bar('contact')
     
     \begin{figure}%
         \centering
-        \subfloat[job]{\includegraphics[scale=0.5]{plot/classification/job.pdf}}%
+        \subfloat[job]{\includegraphics[scale=0.4]{plot/classification/job.pdf}}%
         \qquad
-        \subfloat[marital]{\includegraphics[scale=0.5]{plot/classification/marital.pdf}}%
+        \subfloat[marital]{\includegraphics[scale=0.4]{plot/classification/marital.pdf}}%
     
         \subfloat[education]{\includegraphics[scale=0.4]{plot/classification/education.pdf}}%
         \qquad
         \subfloat[contact]{\includegraphics[scale=0.4]{plot/classification/contact.pdf}}%
         
-        \label{fig:example}%
+        \subfloat[loan]{\includegraphics[scale=0.4]{plot/classification/loan.pdf}}%
+        \qquad
+        \subfloat[contact]{\includegraphics[scale=0.4]{plot/classification/housing.pdf}}%
     \end{figure}
+    \quad \\
+    \textbf{Summary of Categorical Variables:}
+    \begin{enumerate}
+        \item When job types are retired and student, the proportions of opening the deposit are high as well.
+        \item 
+    \end{enumerate}
+    
+    \subsubsection{Numerical Variables}
+\begin{lstlisting}[language = Python]
+corr = data.corr()
+corr.style.background_gradient(cmap = 'Spectral')
+\end{lstlisting}
+    \quad \\
+    {\tiny
+        \begin{tabular}{lrrrrrrrrrrr}
+            {} &     age &  duration &  campaign &   pdays &  previous &  emp.var.rate &  cons.price.idx &  cons.conf.idx &  euribor3m &  nr.employed &       y \\
+            
+            age            &  1.0000 &   -0.0009 &    0.0046 & -0.0344 &    0.0244 &       -0.0004 &          0.0009 &         0.1294 &     0.0108 &      -0.0177 &  0.0304 \\
+            duration       & -0.0009 &    1.0000 &   -0.0717 & -0.0476 &    0.0206 &       -0.0280 &          0.0053 &        -0.0082 &    -0.0329 &      -0.0447 &  0.4053 \\
+            campaign       &  0.0046 &   -0.0717 &    1.0000 &  0.0526 &   -0.0791 &        0.1508 &          0.1278 &        -0.0137 &     0.1351 &       0.1441 & -0.0664 \\
+            pdays          & -0.0344 &   -0.0476 &    0.0526 &  1.0000 &   -0.5875 &        0.2710 &          0.0789 &        -0.0913 &     0.2969 &       0.3726 & -0.3249 \\
+            previous       &  0.0244 &    0.0206 &   -0.0791 & -0.5875 &    1.0000 &       -0.4205 &         -0.2031 &        -0.0509 &    -0.4545 &      -0.5013 &  0.2302 \\
+            emp.var.rate   & -0.0004 &   -0.0280 &    0.1508 &  0.2710 &   -0.4205 &        1.0000 &          0.7753 &         0.1960 &     0.9722 &       0.9070 & -0.2983 \\
+            cons.price.idx &  0.0009 &    0.0053 &    0.1278 &  0.0789 &   -0.2031 &        0.7753 &          1.0000 &         0.0590 &     0.6882 &       0.5220 & -0.1362 \\
+            cons.conf.idx  &  0.1294 &   -0.0082 &   -0.0137 & -0.0913 &   -0.0509 &        0.1960 &          0.0590 &         1.0000 &     0.2777 &       0.1005 &  0.0549 \\
+            euribor3m      &  0.0108 &   -0.0329 &    0.1351 &  0.2969 &   -0.4545 &        0.9722 &          0.6882 &         0.2777 &     1.0000 &       0.9452 & -0.3078 \\
+            nr.employed    & -0.0177 &   -0.0447 &    0.1441 &  0.3726 &   -0.5013 &        0.9070 &          0.5220 &         0.1005 &     0.9452 &       1.0000 & -0.3547 \\
+            y              &  0.0304 &    0.4053 &   -0.0664 & -0.3249 &    0.2302 &       -0.2983 &         -0.1362 &         0.0549 &    -0.3078 &      -0.3547 &  1.0000 \\
+        \end{tabular}
+    } \\ \\
+    \textbf{Summary of Numerical Variables:}
+    \begin{itemize}
+        \item \texttt{duration} is the highest correlated variable with target feature (0.4053).
+        \item \texttt{nr.employed, pdays, euribor3m} are also highly correlated with target feature.
+    \end{itemize}
+    
+    
+    \subsection{Data Preparation for modeling}
+    \subsubsection{Transformation for Categorical Variables}
+    Since this dataset contains a lot of categorical variables and the number of weakly correlated numeric variables is small, therefore, we use one-hot encoding to transform categorical data.  While for binary categorical variables, we transform it into binary number accordingly (0 and 1). \\
+    For \texttt{job, marital, education, month, day\_of\_week}, we use one-hot encoding to transform these variables since they have more than 3 types of possible options. \\
+    Moreover, some variables contain missing data, labeled as \texttt{unknown} or \texttt{nonexistent}, we treat it as 0 (i.e. no) in general.
+    
+\begin{lstlisting}[language = Python]
+# Fucntion of One Hot Encoding
+def encode(data, col):
+    return pd.concat([data, pd.get_dummies(col, prefix=col.name)], axis=1)
+
+# Replacing values with binary number
+data.contact = data.contact.map({'cellular': 0, 'telephone': 1}).astype('uint8') 
+data.loan = data.loan.map({'unknown': 0, 'no' : 0, 'yes': 1}).astype('uint8')
+data.default = data.default.map({'unknown': 0,'no': 0, 'yes': 1}).astype('uint8')
+data.housing = data.housing.map({'unknown': 0, 'no' : 0,'yes': 1}).astype('uint8')
+# binary if were was an outcome of marketing campane
+data.poutcome = data.poutcome.map({'nonexistent':0, 'failure':0, 'success':1}).astype('uint8') 
+
+# One Hot encoding of 3 variable 
+data = encode(data, data.job)
+data = encode(data, data.month)
+data = encode(data, data.day_of_week)
+
+# Drop tranfromed features
+data.drop(['job','month', 'day_of_week'], axis=1, inplace=True)
+
+'''Drop the dublicates'''
+data.drop_duplicates(inplace=True) 
+
+# Save target variable as y
+y = data.y
+# Create target encoder object and transoform marital and education
+target_encode = ce.target_encoder.TargetEncoder(cols=['marital', 'education']).fit(data, y)
+dataset_prepared = target_encode.transform(data)
+# Drop target variable
+dataset_prepared.drop('y', axis=1, inplace=True)
+
+display(dataset_prepared.sample(10))
+display('There are {} observations with {} features in the prepared dataset'.format(dataset_prepared.shape[0], dataset_prepared.shape[1]))
+\end{lstlisting}
+    \quad \\
+    \begin{tabular}{lrrrrrrrrr}
+        {} &  age &   marital &  education &  default &  housing &  loan &  contact &  duration &  campaign \\
+        
+        29851 &   52 &  0.103231 &   0.137219 &        0 &        1 &     0 &        1 &        70 &         4 \\
+        15768 &   39 &  0.140090 &   0.113550 &        0 &        0 &     0 &        0 &        65 &         2 \\
+        38033 &   76 &  0.101569 &   0.102515 &        0 &        1 &     0 &        0 &       259 &         2 \\
+        27290 &   37 &  0.140090 &   0.137219 &        0 &        1 &     1 &        0 &       661 &         1 \\
+        30685 &   34 &  0.101569 &   0.078246 &        0 &        1 &     0 &        0 &       332 &         1 \\
+    \end{tabular} \\ \\
+    \texttt{There are 41174 observations with 44 features in the prepared dataset}
+    
+    
+    \subsubsection{Splitting Training Dataset and Testing Dataset}
+\begin{lstlisting}[language = Python]
+# Set global random seed
+random_state = 4002
+# split data
+x_train, x_test, y_train, y_test = train_test_split(dataset_prepared, y, test_size=0.2, random_state=random_state)
+\end{lstlisting}
+    
     
     \subsection{Decision Trees} \label{decision_trees}
-    Using the 20 explanatory variables above, it is desirable to fit a decision tree model to do prediction.
+    Setting the depth of decision tree to 3, to plot a simplified decision tree.
 \begin{lstlisting}[language = Python]
-import numpy as np
-np.rand(5)
+# Set max_depth = 3 to keep the size of the tree small for ploting graph
+dt = tree.DecisionTreeClassifier(max_depth=3, random_state=random_state)
+dt.fit(x_train, y_train)
+plt.figure(figsize=(18, 10))
+_ = tree.plot_tree(dt, feature_names=dataset_prepared.columns,
+                   class_names=["0", "1"], filled=True)
 \end{lstlisting}
+    % \quad \\
+    \begin{center}
+        \includegraphics[width=.9\textwidth]{plot/classification/decision_tree.pdf}
+    \end{center}
     
     \subsection{Random Forest} \label{random_forest}
     
