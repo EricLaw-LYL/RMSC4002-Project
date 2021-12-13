@@ -504,7 +504,9 @@
 
     \begin{figure}[!ht]
         \centering
-        \includegraphics[height =  0.9\textheight]{plot/classification/random_forest.pdf}
+        \includegraphics[width = \textwidth]{plot/classification/random_forest0.pdf}
+        \includegraphics[width = \textwidth]{plot/classification/random_forest1.pdf}
+        \includegraphics[width = \textwidth]{plot/classification/random_forest2.pdf}
         \caption{Random Forest}
         \label{fig:random_forest}
     \end{figure}
@@ -515,7 +517,8 @@
     
     
     \subsection{Logistic Regression} \label{logistic_regression}
-    Since random forest is expansion of decision tree, we also include logistic regression to compare with former two models.
+    Since random forest is expansion of decision tree, we also include logistic regression to compare with former two models. Notice that plotting the logistic regression logit plot requires extremely long time for plotting ten of thousands of points, so we only use \texttt{duration} as explanatory variable to demonstrate in plot.
+    
     
     
     \subsection{Cross Validation and Grid Search Procedures}
