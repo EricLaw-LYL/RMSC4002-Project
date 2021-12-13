@@ -836,12 +836,12 @@
     
     \subsection{Logistic Regression} \label{logistic_regression}
     Since random forest is expansion of decision tree, we also include logistic regression to compare with former two models. Notice that plotting the logistic regression logit plot requires extremely long time for plotting ten of thousands of points, so we only use \texttt{duration} as explanatory variable to demonstrate in plot.
-    % \begin{figure}[!ht]
-    %     \centering
-    %     \includegraphics{plot/classification/lr/lr_duration.pdf}
-    %     \caption{Logistic Regression on \texttt{duration}}
-    %     \label{fig:lr}
-    % \end{figure}
+    \begin{figure}[!ht]
+        \centering
+        \includegraphics{plot/classification/lr/lr_duration.pdf}
+        \caption{Logistic Regression on \texttt{duration}}
+        \label{fig:lr}
+    \end{figure}
     
     \noindent
     From the graph, we can see that using only \texttt{duration} has low accuracy, so we introduce more explanatory variables in next section.
