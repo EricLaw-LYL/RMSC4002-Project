@@ -24,7 +24,10 @@
     \date{\today}
     \maketitle
     
+    % \newpage
     \tableofcontents
+    \thispagestyle{empty}
+    \pagenumbering{gobble} 
     \newpage
     
     
@@ -50,9 +53,9 @@
     \begin{enumerate}
         \item 10000 USD is used as the principal
         \item Only Long is available, no short sales
-        \item Commission per trade : max\{2.05, 1.3\% \texttimes{} number of stock traded \}
+        \item Commission per trade : max\{2.05, 1.3\% \texttimes{} number of stock traded\}
         \item Window size of arithmetic return : 50-days
-        \item \(\lambda\)=0.94, estimated by J.P. Morgan Riskmetrics database %(1)
+        \item \(\lambda\)=0.94, estimated by J.P. Morgan Riskmetrics database\cite{JPM}
     \end{enumerate}
     
     \subsubsection{Algorithm}
@@ -101,8 +104,7 @@
     
     
     \subsubsection{Pricipal Component Analysis (PCA)}
-    Principal Component Analysis (PCA) is a multivariate statistical technique for dimension reduction. It is commonly used for image processing and variable selection. 
-    In this project, PCA is applied to stocks in the Russell3000 index as a stock selection method to build a portfolio of 10 stocks that closely represents the index. PCA decomposes the interrelated variables into uncorrelated principal components. The first PC is used for variable selection as it is the major market factor. It can represent the financial market performance. We select the 10 stocks with highest loadings in the first PC. The stock selection method works together with Kelly's formula, so we used a rolling window approach. For each time we sell our stocks at time t, we will apply PCA on the past t-253 to t-1 log-return to update our portfolio.
+    Principal Component Analysis (PCA) is a multivariate statistical technique for dimension reduction. It is commonly used for image processing and variable selection\cite{PCA}. In this project, PCA is applied to stocks in the Russell3000 index as a stock selection method to build a portfolio of 10 stocks that closely represents the index. PCA decomposes the interrelated variables into uncorrelated principal components. The first PC is used for variable selection as it is the major market factor. It can represent the financial market performance. We select the 10 stocks with highest loadings in the first PC. The stock selection method works together with Kelly's formula, so we used a rolling window approach. For each time we sell our stocks at time t, we will apply PCA on the past t-253 to t-1 log-return to update our portfolio.
     Using PCA to extract the top 10 stocks can be obtained as follows: \\
     Step 1 : Input stocks' price in the index, compute the log-return as u. \\
     Step 2 : Calculate the covariance matrix of the first 252 days log-return u. Apply eigendecomposition on the covariance matrix, with eigenvalues \(\sigma\) and eigenvectors V. \\
@@ -142,7 +144,7 @@
     
     
     \subsubsection{Portfolio Optimization}
-    A mean-variance efficient portfolio can be obtained as the solution of minimizing the portfolio variance under the constraint that the portfolio expected return equals a target return. A convenient R function for doing so is the function portfolio.optim() in the R package tseries. Its default implementation finds the mean-variance efficient portfolio weights under the constraint that the portfolio return equals the return on the equally-weighted portfolio. In this project, we have assumed that only long is possible, therefore the weighting will be all positive.
+    A mean-variance efficient portfolio can be obtained as the solution of minimizing the portfolio variance under the constraint that the portfolio expected return equals a target return. A convenient R function for doing so is the function \texttt{portfolio.optim()} in the R package \texttt{tseries}. Its default implementation finds the mean-variance efficient portfolio weights under the constraint that the portfolio return equals the return on the equally-weighted portfolio. In this project, we have assumed that only long is possible, therefore the weighting will be all positive.
     
     \begin{algorithm}[H]
     \caption{Mean-Variance Portfolio Optimization Algorithm}
@@ -1007,12 +1009,16 @@
     
     
     \subsection{Conclusion}
-    From Table \ref{tab:comparison}, random forest has a higher accuracy rate and ROC rate (0.8998, 0.9354) comparing to that of decision tree (0.8948, 0.9058). The accuracy rate are similar in both method. \\
-    Speaking of computation time, decision tree requires shorter time ($\sim$ 2.09s), while random forest requires 40 times longer in computation ($\sim$ 84.41s), there is a huge difference. \\
-    Our group believe that random forest performs better than decision tree in this case. Since this dataset contains around 40,000 rows, the required computation time is around 80s, which is reasonable. Also, random forest has a significantly better ROC rate.
+    From Table \ref{tab:comparison}, random forest has the highest roc\_rate, while the accuracy rate among three models are very close. \\
+    Speaking of computation time, decision tree requires shortest time, random forest requires extremely longer time relatively to others, in which decision tree only requires less than 5 seconds. \\
+    From Figure \ref{fig:roc}, the roc curve of logistic regression is very close to random forest after FPR $>$ 0.3 \\
+    \\
+    Our group believe that random forest performs better than decision tree in this case, in terms of the accuracy in roc rate. However, in order to balance the limit of computation time, we could use logistic regression in large dataset.
     
     
     \newpage
+    % \thispagestyle{empty}
+    % \pagenumbering{gobble} 
     \section{Bibliography}
     \bibliographystyle{unsrt}
     % \bibliographystyle{plain} % We choose the "plain" reference style
