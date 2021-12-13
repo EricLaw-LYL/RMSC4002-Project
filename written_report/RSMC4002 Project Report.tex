@@ -850,11 +850,11 @@
     To optimize our prediction model, we use 5-fold cross validation and grid search to find the optimized parameters. This step is implemented using \texttt{Pipeline} and \texttt{GridSearchCV} from \texttt{sklearn}. The training accuracy rate, testing accuracy rate and computation time are calculated base on the best model under grid search. \\
     
     
-    \begin{figure}
+    \begin{figure}[!ht]
         \centering
-        \includegraphics{plot}
-        \caption{Caption}
-        \label{fig:my_label}
+        \includegraphics[width = 0.9\textwidth]{plot/classification/cv.pdf}
+        \caption{Performance in Cross Validation}
+        \label{fig:cv}
     \end{figure}
     
     
@@ -914,6 +914,7 @@
 % \end{lstlisting}
     % \noindent
     
+    \newpage
     \noindent
     \textbf{Output:} (refer to source code)
     
@@ -943,7 +944,9 @@
     Accuracy: 0.8970248937462052 \\
     Precision: 0.6578947368421053 \\
     Recall: 0.25826446280991733 \\
-    It requires 244.53 sec to compute}
+    It requires 244.53 sec to compute} \\
+    \\
+    \textbf{Confusion matrix:} \textcolor{red}{Please refer to the confusion matrix heatmap on source code.}
     
 
     \subsection{Comparison of Performance of Random Forest and Decision Tree}
@@ -959,11 +962,12 @@
 %     \noindent
     \begin{table}[ht]
         \centering
-        \begin{tabular}{llrrr}
-            {} &    Model\_used &  Testing\_accuracy\_rate &  Testing\_ROC\_rate &  Time\_used \\
-            \hline \hline
-            0 &  RandomForest &               0.899818 &          0.935413 &      84.41 \\
-            1 &  DecisionTree &               0.894839 &          0.905776 &       2.09 \\
+        \begin{tabular}{llrrrrr}
+        {} &    Model\_used &  Accuracy &  Precision &    Recall &  ROC\_rate &  Time\_used \\
+        \hline \hline
+        0 &  RandomForest &  0.899089 &   0.754647 &  0.209711 &  0.939707 &    1274.78 \\
+        1 &  DecisionTree &  0.899332 &   0.602659 &  0.421488 &  0.896831 &       3.91 \\
+        2 &  Logistic\_reg &  0.897025 &   0.657895 &  0.258264 &  0.917112 &     244.53 \\
         \end{tabular}
         \caption{Accuracy Rate, ROC rate and Computation Time}
         \label{tab:comparison}
@@ -1003,7 +1007,7 @@
     
     
     \subsection{Conclusion}
-    In terms of performance, random forest has a higher accuracy rate and ROC rate (0.8998, 0.9354) comparing to that of decision tree (0.8948, 0.9058). The accuracy rate are similar in both method. \\
+    From Table \ref{tab:comparison}, random forest has a higher accuracy rate and ROC rate (0.8998, 0.9354) comparing to that of decision tree (0.8948, 0.9058). The accuracy rate are similar in both method. \\
     Speaking of computation time, decision tree requires shorter time ($\sim$ 2.09s), while random forest requires 40 times longer in computation ($\sim$ 84.41s), there is a huge difference. \\
     Our group believe that random forest performs better than decision tree in this case. Since this dataset contains around 40,000 rows, the required computation time is around 80s, which is reasonable. Also, random forest has a significantly better ROC rate.
     
