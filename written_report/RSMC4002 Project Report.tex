@@ -456,32 +456,32 @@
     \setcounter{magicrownumbers}{0}
     \newcommand\rules{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
     \begin{tabular}{r l}
-        R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50 and \texttt{duration} $<$= 123.50, then \texttt{y} = 0 \\
-        & Support = 0.0271, Confidence = 0.9102, Capture = 0.0277\\
+        R\rules & If \texttt{duration} $<$= 524.5 and \texttt{euribor3m} $<$= 0.5 and \texttt{duration} $<$= 163.5, then \texttt{y} = 0 \\
+        & Gini = 0.272, Support = 0.0332, Confidence = 0.8379, Capture = 0.0313 \\
         
-        R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50 and \texttt{duration} $>$ 123.50, then \texttt{y} = 0 \\
-        & Support = 0.0155, Confidence = 0.7275, Capture = 0.0127\\
+        R\rules & If \texttt{duration} $<$= 524.5 and \texttt{euribor3m} $<$= 0.5 and \texttt{duration} $>$ 163.5, then \texttt{y} = 1 \\
+        & Gini = 0.483, Support = 0.0497, Confidence = 0.5935, Capture = 0.2645 \\
         
-        R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $>$ 162.50 and \texttt{pdays} $>$ 123.50, then \texttt{y} =  \\
-        & Support = , Confidence = , Capture = \\
+        R\rules & If \texttt{duration} $<$= 524.5 and \texttt{euribor3m} $>$ 0.5 and \texttt{emp.var.rate} $<$= 1.5, then \texttt{y} = 0 \\
+        & Gini = 0.199, Support = 0.2071, Confidence = 0.8880, Capture = 0.2070 \\
         
-        R\rules & If , then \texttt{y} =  \\
-        & Support = , Confidence = , Capture = \\
+        R\rules & If \texttt{duration} $<$= 524.5 and \texttt{euribor3m} $>$ 0.5 and \texttt{emp.var.rate} $>$ 1.5, then \texttt{y} = 0 \\
+        & Gini = 0.019, Support = 0.6017, Confidence = 0.9902, Capture = 0.6706\\
         
-        R\rules & If , then \texttt{y} =  \\
-        & Support = , Confidence = , Capture = \\
+        R\rules & If \texttt{duration} $>$ 524.5 and \texttt{duration} $<$= 835.5 and \texttt{emp.var.rate} $<$= 1.5, then \texttt{y} = 1 \\
+        & Gini = 0.497, Support = 0.0247, Confidence = 0.5380, Capture = 0.1196 \\
         
-        R\rules & If , then \texttt{y} =  \\
-        & Support = , Confidence = , Capture = \\
+        R\rules & If \texttt{duration} $>$ 524.5 and \texttt{duration} $<$= 835.5 and \texttt{emp.var.rate} $>$ 1.5, then \texttt{y} = 0 \\
+        & Gini = 0.397, Support = 0.0466, Confidence = 0.7269, Capture = 0.0381 \\
         
-        R\rules & If , then \texttt{y} =  \\
-        & Support = , Confidence = , Capture = \\
+        R\rules & If \texttt{duration} $>$ 524.5 and \texttt{duration} $>$ 835.5 and \texttt{emp.var.rate} $<$= 8.5, then \texttt{y} = 1 \\
+        & Gini = 0.476, Support = 0.0308, Confidence = 0.6085, Capture = 0.1681 \\
         
-        R\rules & If , then \texttt{y} =  \\
-        & Support = , Confidence = , Capture = \\
+        R\rules & If \texttt{duration} $>$ 524.5 and \texttt{duration} $>$ 835.5 and \texttt{emp.var.rate} $>$ 8.5, then \texttt{y} = 0 \\
+        & Gini = 0.494, Support = 0.0062, Confidence = 0.5539, Capture = 0.0039 \\
         
-    \end{tabular} \\
-    As the maximum depth is set to be only 3, there are quite a few redundant leafs, e.g., R1 and R2 could be combined into one rule: If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50, then \texttt{y} = 0
+    \end{tabular} \\ \\
+    As the maximum depth is set to be only 3, there are only 8 rules, and quite a few redundant leafs, e.g., R3 and R4 could be combined into one rule: If \texttt{duration} $<$= 524.5 and \texttt{euribor3m} $>$ 0.5, then \texttt{y} = 0
     
     \newpage
     \subsection{Random Forest} \label{random_forest}
