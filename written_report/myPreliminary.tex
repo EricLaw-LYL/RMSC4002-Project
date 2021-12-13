@@ -5,7 +5,7 @@
 %%%
 %%%----------------------------------------------------------------------------%%%
 %%%----------------------------------------------------------------------------%%%
-\usepackage{amsmath, amsthm, amssymb, nccbbb, bm, dsfont, pifont, fontawesome, graphicx, varioref, enumitem, mathtools, listings, xcolor, cite, fancyhdr, lastpage, lscape, subfig, graphicx, float, tabularx}
+\usepackage{amsmath, amsthm, amssymb, nccbbb, bm, dsfont, pifont, fontawesome, graphicx, varioref, enumitem, mathtools, listings, xcolor, cite, fancyhdr, lastpage, lscape, subfig, graphicx, float, tabularx, algpseudocode, algorithm}
 
 \RequirePackage[round,authoryear]{natbib}
 \RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
@@ -246,5 +246,7 @@
 \fancyhf{}
 \fancyhead[L]{2021-22 Semester 1}
 \fancyhead[R]{RMSC4002 Financial Data Analytics with Machine Learning}
-\fancyfoot[C]{Page \thepage\ of \pageref*{LastPage}}
-
+\fancyfoot[R]{Page \thepage\ of \pageref*{LastPage}}
+\fancyfoot[L]{\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0.4pt} % default is 0pt
+\renewcommand{\footrulewidth}{0.4pt} % default is 0pt
