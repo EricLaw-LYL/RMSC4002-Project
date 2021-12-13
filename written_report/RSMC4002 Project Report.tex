@@ -32,14 +32,18 @@
     \pagenumbering{arabic}
     \setcounter{page}{1}
     
-    \section{Principal Component Analysis Factor Models and Recommender Systems}
+    % \section{Principal Component Analysis Factor Models and Recommender Systems}
+    \section{Principal Component Analysis Factor Models}
+    \textbf{This section is contributed by CHOI Sen Hei (SID: 1155109412), IEONG Hei (SID: 1155104271) and LAU Chiu Tan (SID: 1155108960).}
+    
     \subsection{Pricipal Component Analysis (PCA)}
     
     
     % Section 2
     \newpage
     \section{Classification / Decision and Regression Trees}
-    In this section, we are going to use Decision Tree and Random Forest methods to predict binary response variable.
+    \textbf{This section is contributed by LAM Wai Chui (SID: 1155152095) and LAW Yiu Leung Eric (SID: 1155149315)}. \\
+    In this section, we are going to use Decision Tree and Random Forest methods to predict binary response variable. The source code is attached in \texttt{src/python/classification.ipynb}, notice that the output in this written report may be slightly different with the python notebook, due to random seed is involved.
     
     \subsection{Dataset}
     For the dataset, we use \href{https://archive.ics.uci.edu/ml/datasets/bank+marketing}{Bank Marketing Data Set} from  \href{https://archive.ics.uci.edu/ml/index.php}{UCI Machine Learning Repository}.
@@ -117,7 +121,7 @@
             \begin{tabular}{r c c}
                  & Feature & Type \\
                 \hline \hline
-                \rownumber & campaign & numeric+al \\
+                \rownumber & campaign & numerical \\
                 \rownumber & pdays & numerical \\
                 \rownumber & previous & numerical \\
                 \rownumber & poutcome & categorical \\
@@ -141,7 +145,7 @@
     
     \newpage
     \subsection{Project Description}
-    We are going to perform an analysis in \textbf{topic 6: Classification / Decision and Regression Trees}. We will use \nameref{decision_trees} and \nameref{random_forest} to do classification on response variable \textbf{y}, i.e. whether the client subscribed a term deposit. \\
+    We are going to perform an analysis in \textbf{topic 6: Classification / Decision and Regression Trees}. We will use \nameref{decision_trees}, \nameref{random_forest} and also \nameref{logistic_regression} to do classification on response variable \textbf{y}, i.e. whether the client subscribed a term deposit. \\
     
     
     \noindent
@@ -149,9 +153,10 @@
     \begin{enumerate}
         \item process data explanatory data analysis (EDA)
         \item data preparation for modeling
-        \item visualization of random forest and decision tree
+        \item visualization of random forest, decision tree and logistic regression
         \item cross validation and grid search
-        \item comparison of performance of random forest and decision tree
+        \item logistic regression
+        \item comparison of performance of random forest, decision tree and logistic regression
         \item conclusion
     \end{enumerate}
     
@@ -179,7 +184,7 @@
 % \end{lstlisting}
 
     % \noindent
-    In order to easily implement different machine learning algorithm, instead of writing from scratch, we imported \texttt{sklearn} library \cite{sklearn_api}.
+    In order to easily implement machine learning algorithms, instead of writing from scratch, we imported \texttt{sklearn} library \cite{sklearn_api}.
     
 %     \noindent Loading data and a short explanatory data analysis
 % \begin{lstlisting}[language = Python]
@@ -214,7 +219,7 @@
 % plot_bar('job'), plot_bar('marital'), plot_bar('education'), plot_bar('contact'), plot_bar('loan'), plot_bar('housing')
 % \end{lstlisting}
     
-    We plot percentage stacked bar graphs for each categorical variables in table \ref{tab:bank.client} vs. \texttt{y}, to see the proportions of \texttt{y} = 1 given the client is different categories.
+    We plot percentage stacked bar graphs for 6 categorical variables in table \ref{tab:bank.client} vs. \texttt{y}, to see the proportions of \texttt{y} = 1 given the client is different categories.
     
     \noindent
     \begin{figure}[H]
@@ -251,12 +256,23 @@
     
     \noindent \textbf{Summary of Categorical Variables:}
     \begin{enumerate}
-        \item When job types are retired and student, the proportions of opening the deposit are high as well.
         \item 
+            The proportion of opening deposit or not is different among different job type. When the job types are student, retired and unemployed, the proportions of opening the deposit are highest. When the job types are entrepreneur, services and blue-collar, the proportions of opening the deposit are lowest.
+        
         \item
+            The proportion of opening deposit of unknown is close to that of single, while both of them have higher proportion than divorced and married.
+        
         \item
+            It is surprised to see that illiterate has the highest proportion, other than that, generally higher education levels have higher proportion of opening deposit.
+            
         \item
+            The proportion of opening deposit of using cellular is much higher than that of using telephone.
+            
         \item
+            The proportion is basically no different among loan status.
+            
+        \item
+            The proportion is basically no different among contact status.
     \end{enumerate}
     
     \subsubsection{Numerical Variables}
@@ -299,9 +315,22 @@
     \newpage
     \subsection{Data Preparation for modeling}
     \subsubsection{Transformation for Categorical Variables}
-    Since this dataset contains a lot of categorical variables and the number of weakly correlated numeric variables is small, therefore, we use one-hot encoding to transform categorical data.  While for binary categorical variables, we transform it into binary number accordingly (0 and 1). \\
-    For \texttt{job, marital, education, month, day\_of\_week}, we use one-hot encoding to transform these variables since they have more than 3 types of possible options. Also, some variables contain missing data, labeled as \texttt{unknown} or \texttt{nonexistent}, we treat it as 0 (i.e. no) in general. \\
-    At last, we remove duplicated records.
+    Since this dataset contains a lot of categorical variables and the number of weakly correlated numeric variables is small, therefore, we use one-hot encoding to transform categorical data.
+    \begin{itemize}
+        \item 
+            For binary categorical variables (\texttt{"yes", "no"}), we transform it into binary number accordingly (\texttt{0, 1}).
+            
+        \item
+            For \texttt{job, marital, education, month, day\_of\_week}, we use one-hot encoding to transform these variables since they have more than 3 types of possible options. Also, some variables contain missing data, labeled as \texttt{unknown} or \texttt{nonexistent}, we treat it as 0 (i.e. no) in general.
+        
+        \item
+            For \texttt{pdays}, there exists many records of \texttt{999} which means the client was not previously contacted, we replaces those with \texttt{0}.
+        
+        \item
+            At last, we remove duplicated records.
+    \end{itemize}
+
+    
     
 % \begin{lstlisting}[language = Python]
 % # Fucntion of One Hot Encoding
@@ -341,25 +370,26 @@
     % \noindent
     \begin{table}[ht]
         \centering
-        \begin{tabular}{lrrrrrrrrr}
-            {} &  age &   marital &  education &  default &  housing &  loan &  contact &  duration &  campaign \\
+        \begin{tabular}{lrrrrrrrrrc}
+            {} &  age &   marital &  education &  default &  housing &  loan &  contact &  duration &  campaign & \dots \\
             \hline \hline
-            29851 &   52 &  0.103231 &   0.137219 &        0 &        1 &     0 &        1 &        70 &         4 \\
-            15768 &   39 &  0.140090 &   0.113550 &        0 &        0 &     0 &        0 &        65 &         2 \\
-            38033 &   76 &  0.101569 &   0.102515 &        0 &        1 &     0 &        0 &       259 &         2 \\
-            27290 &   37 &  0.140090 &   0.137219 &        0 &        1 &     1 &        0 &       661 &         1 \\
-            30685 &   34 &  0.101569 &   0.078246 &        0 &        1 &     0 &        0 &       332 &         1 \\
+            29851 &   52 &  0.103231 &   0.137219 &        0 &        1 &     0 &        1 &        70 &         4 & \dots \\
+            15768 &   39 &  0.140090 &   0.113550 &        0 &        0 &     0 &        0 &        65 &         2 & \dots \\
+            38033 &   76 &  0.101569 &   0.102515 &        0 &        1 &     0 &        0 &       259 &         2 & \dots \\
+            27290 &   37 &  0.140090 &   0.137219 &        0 &        1 &     1 &        0 &       661 &         1 & \dots \\
+            30685 &   34 &  0.101569 &   0.078246 &        0 &        1 &     0 &        0 &       332 &         1 & \dots \\
         \end{tabular}
         \caption{Dataset Samples after Encoding}
         \label{tab:samples_encoded}
     \end{table}
     
     \noindent
-    After removing duplicates, there are 41174 observations with 44 features in the prepared dataset
+    After removing duplicates, there are 41173 observations with 44 features in the prepared dataset
     
     
     \subsubsection{Splitting Training Dataset and Testing Dataset}
-    To test the performance of machine learning alogrithm, we split the dataset into training and testing datasets, 80\% and 20\% of the full dataset respectively.
+    To test the performance of machine learning alogrithm, we split the dataset into training and testing datasets, 80\% and 20\% of the full dataset respectively. The models would be built using training dataset, and evaluated the performance using testing dataset accordingly. In order to make the prediction model reproducible, we fixed the random seed: \texttt{random\_state=4002}. \\
+    Total records in training dataset = 32938, number of class \texttt{0} and \textt{1} in training dataset: \texttt{[29267, 3671]}, noted that this is the numbers of true positive and true negative. These are used to calculate the support, confidence and capture in evaluating performance under training dataset.
 % \begin{lstlisting}[language = Python]
 % # Set global random seed
 % random_state = 4002
@@ -427,19 +457,26 @@
     \newcommand\rules{\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
     \begin{tabular}{r l}
         R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50 and \texttt{duration} $<$= 123.50, then \texttt{y} = 0 \\
-        & Support = , Confidence = , Capture = \\
+        & Support = 0.0271, Confidence = 0.9102, Capture = 0.0277\\
+        
         R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $<$= 162.50 and \texttt{duration} $>$ 123.50, then \texttt{y} = 0 \\
+        & Support = 0.0155, Confidence = 0.7275, Capture = 0.0127\\
+        
+        R\rules & If \texttt{nr.employed} $>$= 5087.65 and \texttt{duration} $>$ 162.50 and \texttt{pdays} $>$ 123.50, then \texttt{y} =  \\
         & Support = , Confidence = , Capture = \\
+        
         R\rules & If , then \texttt{y} =  \\
         & Support = , Confidence = , Capture = \\
+        
         R\rules & If , then \texttt{y} =  \\
         & Support = , Confidence = , Capture = \\
+        
         R\rules & If , then \texttt{y} =  \\
         & Support = , Confidence = , Capture = \\
+        
         R\rules & If , then \texttt{y} =  \\
         & Support = , Confidence = , Capture = \\
-        R\rules & If , then \texttt{y} =  \\
-        & Support = , Confidence = , Capture = \\
+        
         R\rules & If , then \texttt{y} =  \\
         & Support = , Confidence = , Capture = \\
         
@@ -475,6 +512,10 @@
     \newpage
     \noindent
     In this simplified random forest, we obtain 10 decision trees (only 3 were printed above), then the prediction is obtained by the majority vote in the case of classification.
+    
+    
+    \subsection{Logistic Regression} \label{logistic_regression}
+    Since random forest is expansion of decision tree, we also include logistic regression to compare with former two models.
     
     
     \subsection{Cross Validation and Grid Search Procedures}
